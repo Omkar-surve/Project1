@@ -1,0 +1,23 @@
+---
+- name: Ping reachability check.
+  # hosts: [ios_routers, iosxr_routers]
+  hosts: ios_routers
+  gather_facts: no
+  vars_files:
+    - "../vars/myvars.yml"
+  
+  tasks:
+  - name: Checking IOS PING
+    ios_command:
+      commands:
+       - ping {{ item.0 }} source {{ item.1 }}
+    register: ping_output
+    with_nested:
+      - "{{ destination }}"
+      - "{{ source_interface }}"
+  
+  - name: Printing output
+    copy:
+      dest: "{{ log_file }}"
+      # content: "{{ ping_output }}\n=== stderr: ======\n{{ ping_output.stderr }}"
+      content: "{{ ping_output.results[0].stdout}}"

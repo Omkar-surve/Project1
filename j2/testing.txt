@@ -1,0 +1,25 @@
+{u'ansible_network_resources': {}, u'ansible_net_python_version': u'2.7.5', u'ansible_net_image': u'bootflash:disk0/xrvr-os-mbi-6.0.1/mbixrvr-rp.vm', u'ansible_net_all_ipv4_addresses': [u'10.10.1.1'], u'ansible_net_model': u'IOS XRv', u'ansible_net_hostname': u'R1', u'ansible_net_gather_subset': [u'hardware', u'default', u'interfaces', u'config'], u'ansible_net_gather_network_resources': [], u'ansible_net_interfaces': {u'Null0': {u'macaddress': u'Unknown', u'lineprotocol': u'up', u'description': None, u'duplex': None, u'mtu': 1500, u'operstatus': u'up', u'bandwidth': 0, u'ipv4': None, u'type': None}, u'MgmtEth0/0/CPU0/0': {u'macaddress': u'5000.0001.0000', u'lineprotocol': u'up', u'description': None, u'duplex': None, u'mtu': 1514, u'operstatus': u'up', u'bandwidth': 0, u'ipv4': {u'masklen': 16, u'address': u'10.10.1.1'}, u'ipv6': [], u'type': u'Management Ethernet'}, u'GigabitEthernet0/0/0/2': {u'macaddress': u'5000.0001.0003', u'lineprotocol': u'administratively down', u'description': None, u'duplex': u'Full', u'mtu': 1514, u'operstatus': u'administratively down', u'bandwidth': 1000000, u'ipv4': None, u'ipv6': [], u'type': u'GigabitEthernet'}, u'GigabitEthernet0/0/0/1': {u'macaddress': u'5000.0001.0002', u'lineprotocol': u'administratively down', u'description': None, u'duplex': u'Full', u'mtu': 1514, u'operstatus': u'administratively down', u'bandwidth': 1000000, u'ipv4': None, u'ipv6': [], u'type': u'GigabitEthernet'}, u'GigabitEthernet0/0/0/0': {u'macaddress': u'5000.0001.0001', u'lineprotocol': u'administratively down', u'description': None, u'duplex': u'Full', u'mtu': 1514, u'operstatus': u'administratively down', u'bandwidth': 1000000, u'ipv4': None, u'ipv6': [], u'type': u'GigabitEthernet'}}, u'ansible_net_version': u'6.0.1[Default]', u'ansible_net_config': u'Building configuration...
+!! IOS XR Configuration 6.0.1
+!! Last configuration change at Sun Feb  6 14:30:22 2022 by cisco
+!
+hostname R1
+domain name DN.com
+ipv4 access-list SSH_ALLOWED
+ 10 permit ipv4 10.10.0.0/16 any
+!
+interface MgmtEth0/0/CPU0/0
+ ipv4 address 10.10.1.1 255.255.0.0
+!
+interface GigabitEthernet0/0/0/0
+ shutdown
+!
+interface GigabitEthernet0/0/0/1
+ shutdown
+!
+interface GigabitEthernet0/0/0/2
+ shutdown
+!
+ssh server v2
+ssh server vrf default ipv4 access-list SSH_ALLOWED
+ssh timeout 120
+end', u'ansible_net_all_ipv6_addresses': [], u'ansible_net_memtotal_mb': u'3071', u'ansible_net_system': u'iosxr', u'discovered_interpreter_python': u'/usr/bin/python', u'ansible_net_memfree_mb': u'1539', u'ansible_net_filesystems': [u'disk0:'], u'ansible_net_api': u'cliconf'}

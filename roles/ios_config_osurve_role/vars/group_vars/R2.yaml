@@ -1,0 +1,14 @@
+---
+interfaces:
+    Ethernet0/0:
+      Intf_description: Mgmt Interface
+      IPv4_addr: 10.10.1.2  255.255.0.0
+      IPv6_addr: 2001:db8:10:10:1::2/64
+    Ethernet0/1:
+      Intf_description: 'AS65535|Towards R1 Gi0/0/0/1'
+      IPv4_addr: 12.34.35.2 255.255.255.0
+      IPv6_addr: 2001:db8:12:34:35::2/112
+    Ethernet0/2:
+      Intf_description: 'AS65533|Towards R5 Eth0/2'
+      IPv4_addr: 25.33.34.2 255.255.255.0
+      IPv6_addr: 2001:db8:25:33:34::2/112

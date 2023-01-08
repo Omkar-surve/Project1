@@ -1,0 +1,17 @@
+{% if {{ loggggg.ansible_facts.ansible_net_system }} == 'iosxr' -%}
+This is the summary of the IOSXR device
+===================================================
+Device hostname: {{ loggggg.ansible_facts.ansible_net_hostname }}
+{{ loggggg.ansible_facts.ansible_net_model }} version: {{ loggggg.ansible_facts.ansible_net_version }}
+PID: {{ loggggg.ansible_facts.ansible_net_system }}
+{% if loggggg.ansible_facts.ansible_net_all_ipv4_addresses -%}
+Mgmt IPv4: {{ loggggg.ansible_facts.ansible_net_all_ipv4_addresses[0] }}
+{% else -%}
+Mgmt IPv4: None
+{% endif -%}
+{% if loggggg.ansible_facts.ansible_net_all_ipv6_addresses -%}
+Mgmt IPv6: {{ loggggg.ansible_facts.ansible_net_all_ipv6_addresses.[0] }}
+{% else -%}
+Mgmt IPv6: None
+{% endif -%}
+{% endif -%}

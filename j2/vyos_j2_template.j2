@@ -1,0 +1,16 @@
+{%if log2.ansible_facts.ansible_net_system == "vyos" -%}
+This is the summary of the IOSXR device
+===================================================
+Device hostname: {{ log2.ansible_facts.ansible_net_hostname }}
+{{ log2.ansible_facts.ansible_net_system }} version: {{ log2.ansible_facts.ansible_net_version }}
+PID: {{ log2.ansible_facts.ansible_net_system }}
+Mgmt Interfaces:
+{% for i in log2.ansible_facts.ansible_network_resources.l3_interfaces -%}
+{% if i.name=='eth0'-%}
+Mgmt IPv4: {{i.ipv4[0].address}}
+Mgmt IPv6: {{i.ipv6[0].address}}
+Mgmt Interface: {{i.name}}
+{%endif-%}
+{%endfor-%}
+{%endif-%}
+=================

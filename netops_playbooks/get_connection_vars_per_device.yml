@@ -1,0 +1,15 @@
+---
+- name: "Play to get mgmt connection details of each host."
+  hosts: all
+  gather_facts: no
+
+  tasks:
+
+  - name: "Getting connection details"
+    debug:
+      msg: >
+        host: {{ inventory_hostname }}
+        conn: {{ ansible_connection }}
+        os: {{ ansible_network_os }}
+        user: {{ ansible_user }}
+        password: {{ ansible_password }}

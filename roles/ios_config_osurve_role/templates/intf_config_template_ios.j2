@@ -1,0 +1,9 @@
+{%for i,j in interfaces.items()-%}
+    interface {{i}}
+    description {{j.intf_description}}
+    ip address {{j.ipv4_addr}}
+    ipv6 address {{j.ipv6_addr}}
+    ipv6 address {{j.ipv6_addr_ll}} link-local
+    ipv6 enable
+    no shutdown
+{%endfor-%}

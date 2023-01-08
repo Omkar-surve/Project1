@@ -1,0 +1,79 @@
+---
+####Need to work on this Playbook
+- name: Playbook to test jinja templates.
+  # hosts: [ios_routers, iosxr_routers, cisco_dc_switches]
+  hosts: vyos_network
+  # vars_files:
+  #   - ../vars/myvars.yml
+  become: yes
+  vars:
+    - ansible_python_interpreter: /usr/bin/python3.6
+  gather_facts: false
+
+  tasks:
+  - name: Testing IOSXR hosts.
+    # ignore_errors: True
+    iosxr_facts:
+      gather_subset: '!min'
+    register: log
+    when: ansible_network_os == 'iosxr'
+    notify:
+      - Saving IOSXR output
+  # - name: Print logs.
+  #   debug:
+  #     msg: "{{ ansible_net_hostname }} : {{ log.ansible_facts.ansible_net_all_ipv6_addresses[0] }}"
+
+  - name: Testing IOS hosts.
+    # ignore_errors: True
+    cisco.ios.ios_facts:
+      gather_subset: '!min'
+    register: log1
+    when: ansible_network_os == 'ios'
+    notify:
+      - Saving IOS output
+
+  - name: Testing VyOS hosts.
+    # ignore_errors: True
+    vyos_facts:
+      gather_subset: 'all'
+      gather_network_resources: 'all'
+    register: log2
+    when: ansible_network_os == 'vyos'
+    notify:
+      - Saving VyOS output
+
+  - name: Saving VyOS output __force
+    # ignore_errors: True
+    template:
+      src: ../j2/vyos_j2_template.j2
+      dest: j2/jinja_test1_{{ ansible_net_hostname }}.txt
+    when: log2.ansible_facts.ansible_net_system == "vyos"
+  # - name: Print logs.
+  #   ignore_errors: True
+  #   debug:
+  #     msg: "{{ log2 }}"
+
+  handlers:
+  - name: Saving IOSXR output
+    # ignore_errors: True
+    template:
+      src: ../j2/iosxr_j2_template.j2
+      dest: j2/jinja_test1_{{ ansible_net_hostname }}.txt
+    when: log.ansible_facts.ansible_net_system == 'iosxr'
+
+  - name: Saving IOS output
+    # ignore_errors: True
+    template:
+      src: ../j2/ios_j2_template.j2
+      dest: j2/jinja_test1_{{ ansible_net_hostname }}.txt
+    when: log1.ansible_facts.ansible_net_system == "ios"
+
+  - name: Saving VyOS output
+    # ignore_errors: True
+    template:
+      src: ../j2/vyos_j2_template.j2
+      dest: j2/jinja_test1_{{ ansible_net_hostname }}.txt
+    when: log2.ansible_facts.ansible_net_system == "vyos"
+
+  # - name: Testing NXOS hosts.
+  #   ignore_errors: True" 

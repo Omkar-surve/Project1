@@ -1,0 +1,58 @@
+---
+- name: "IOS PING playbook with vars_file option"
+  hosts: [ios_routers,iosxr_routers,cisco_dc_switches]
+  gather_facts: no
+  vars_files:
+    - ../vars/myvars.yml
+    #The reason for adding full path in vars_files, is because folder vars is present under parent folder and not under playbooks folder.
+  tasks:
+  - name: Check ping to "{{destination}}" from IOS and IOSXR Devices
+    #This task uses the destination value defined with variable -e in linux terminal while executing this playbook.
+    ios_ping:
+      dest: "{{destination}}"
+    register: result1
+    when:
+    - ansible_network_os == "ios"
+
+  - name: Check ping to "{{destination}}" from IOSXR Devices
+    #This task uses the destination value defined with variable -e in linux terminal while executing this playbook.
+    ios_ping:
+      dest: "{{destination}}"
+    when:
+    - ansible_network_os == "iosxr"
+    register: result2
+
+  - name: Check ping to "{{destination}}" from NXOS Device
+    nxos_ping:
+      dest: "{{destination}}"
+      vrf: management
+    when:
+    - ansible_network_os == "nxos"
+    register: result3
+
+  - name: Printing ping response from IOS
+    #This task is print the output collected in registered variable "data" which is present in above task.
+    debug:
+      msg: "{{result1}}"
+      #The msg variable in debug plugin is of type str. Hence dict type filtering will not work. Checking following conditional when statements for str type vars.
+    when:
+    # - result1["skipped"] == "false"
+    - result1 is succeeded
+    - result1 is not skipped
+
+
+  - name: Printing ping response from IOSXR
+    #This task is print the output collected in registered variable "data" which is present in above task.
+    debug:
+      msg: "{{result2}}"
+    when:
+    - result2 is succeeded
+    - result2 is not skipped
+
+  - name: Printing ping response from NXOS
+    #This task is print the output collected in registered variable "data" which is present in above task.
+    debug:
+      msg: "{{result3}}"
+    when:
+    - result3 is succeeded
+    - result3 is not skipped

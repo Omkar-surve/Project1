@@ -1,0 +1,85 @@
+---
+- name: Playbook for Ad-Hoc commands
+  connection: network_cli
+  # hosts: [ios_routers,iosxr_routers,cisco_dc_switches,vyos_network]
+  hosts: all
+  gather_facts: no
+  vars:
+    ansible_python_interpreter: /usr/bin/python3.6
+
+  tasks:
+  # - name: Test reachability to 10.106.37.181
+  #   ansible.builtin.ping:
+  #     data: 10.106.37.181
+  #   register: result1
+  - name: Test reachability to Ansible_server (10.10.0.5) from IOS
+    # hosts: ios_routers
+    cisco.ios.ios_ping:
+      dest: 10.10.0.5
+    register: result2
+    ignore_errors: true
+    when:
+    # - groups == 'ios_routers'
+    - ansible_network_os == 'ios'
+
+  - name: Test reachability to Ansible_server (10.10.0.5) from IOSXR
+    # hosts: iosxr_routers
+    cisco.iosxr.iosxr_command:
+      commands: ping 10.10.0.5
+    register: result3
+    ignore_errors: true
+    when:
+    - ansible_network_os == 'iosxr'
+
+  - name: Test reachability to Ansible_server (10.10.0.5) from Vyos
+    # hosts: vyos_network
+    vyos_ping:
+      dest: 10.10.0.5
+    register: result_vyos
+    ignore_errors: true
+    when:
+    - ansible_network_os == 'vyos'
+
+  - name: Checking PING status from IOS devices.
+    ignore_errors: true  # >>> useful if we except some devices will fail the condition and we don't want task 'failed' count.
+    assert:
+      that:
+      - "'failed' in result2"
+      - result2.failed == false
+      # - result2.skipping == false  >>>> Doesn't work.
+      # - result2.ignoring == false  >>>> Doesn't work.
+      # - result2.failed != false
+      - ansible_network_os == 'ios' # >>> Still runs on IOSXR device. Need to check this condition.
+      success_msg: "Device {{ inventory_hostname }} is reachable to Ansible"
+      fail_msg: "Device {{ inventory_hostname }} is not reachable to Ansible / not an IOS."
+
+  # - name: Checking PING status from IOSXR devices.
+  #   debug:
+  #     msg: Successful. "{{ result3 }}"
+  #     # msg: Successful on {{ ansible_hostname }}
+
+  - name: Checking PING status from IOSXR devices.
+    ignore_errors: true  # >>> useful if we except some devices will fail the condition and we don't want task 'failed' count.
+    assert:
+      that: # >>> asserts all conditions. If one condition among all conditions fails, it generates fail_msg for that device, else generates success_msg. We can use ansible default vars and other host defined vars. 
+      - "'failed' in result3"
+      - result3.failed == false
+      # - result3.skipped == false  >>>> Doesn't work.
+      # - result3.ignored == false  >>>> Doesn't work.
+      # - result2.failed != false
+      - ansible_network_os == 'iosxr'
+      success_msg: "Device {{ inventory_hostname }} is reachable to Ansible"
+      fail_msg: "Device {{ inventory_hostname }} is not reachable to Ansible / not an IOSXR."
+
+  - name: Checking PING status from Vyos devices.
+    ignore_errors: true  # >>> useful if we except some devices will fail the condition and we don't want task 'failed' count.
+    assert:
+      that: # >>> asserts all conditions. If one condition among all conditions fails, it generates fail_msg for that device, else generates success_msg. We can use ansible default vars and other host defined vars. 
+      - "'failed' in result_vyos"
+      - result_vyos.failed == false
+      # - result3.skipped == false  >>>> Doesn't work.
+      # - result3.ignored == false  >>>> Doesn't work.
+      # - result2.failed != false
+      - ansible_network_os == 'vyos'
+      success_msg: "Device {{ inventory_hostname }} is reachable to Ansible"
+      fail_msg: "Device {{ inventory_hostname }} is not reachable to Ansible / not a Vyos."

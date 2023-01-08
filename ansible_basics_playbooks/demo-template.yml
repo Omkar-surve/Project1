@@ -1,0 +1,27 @@
+# NOTES:
+# When executing ad-hoc command extra-vars alongwith ansible-playbook, ad-hoc command preceds over vars defined within the playbook.
+# [cisco@ansible Project1]$ ansible-playbook ansible_basics_playbooks/demo-template.yml --extra-vars '{feature: {"enabled":false}}'
+---
+- name: demo the template
+  hosts: localhost
+  gather_facts: false
+  vars:
+    setting: a_val
+    feature:
+     enabled: true
+    another_setting: b_val
+  tasks:
+  - name: write variables to files.
+    #Below task writes variables to file using jinja template demo.j2 defined in ansible_basics_j2 folder.
+    template:
+      src: '../ansible_basics_j2/demo.j2'
+      dest: '../ansible_basics_j2/output/demo.conf'
+  - name: pause with renderer
+    #Below task does lookup in jinja template using the variables defined in var.
+    ansible.builtin.pause:
+      prompt: "{{ lookup('template', '../ansible_basics_j2/demo.j2')}}"
+  - name: pause with renderer - Alternative using debug module
+    #Alternative to Task 2
+    #Below task does lookup in jinja template using the variables defined in var.
+    ansible.builtin.debug:
+      msg: "{{ lookup('template', '../ansible_basics_j2/demo.j2') }}"

@@ -1,0 +1,62 @@
+---
+- name: Play to demo simple when conditions in ansible.
+  hosts: [ios_routers, iosxr_routers,cisco_dc_switches]
+  # hosts: iosxr_routers
+  gather_facts: no
+
+  vars_files:
+    - "../../vars/myvars.yml"
+  
+  tasks:
+    - name: Getting facts from IOS device
+      ios_facts:
+        gather_subset:
+          - hardware
+          # - software
+      ignore_errors: yes
+      when:
+       - ansible_network_os=='ios'
+      # register: results
+
+    - name: Getting facts from IOSXR
+      iosxr_facts:
+        gather_subset: '!config'
+        #Default: '!config'
+      ignore_errors: yes
+      when:
+       - ansible_network_os=='iosxr'
+
+    - name: Getting facts from NXOS
+      nxos_facts:
+        gather_subset: '!config'
+        #Default: '!config'
+      ignore_errors: yes
+      when:
+       - ansible_network_os=='nxos'
+      # register: results
+
+      # register: results
+
+    - name: Displaying facts of IOS devices.
+      debug:
+        # msg: "{{ results }}"
+        msg: "Device name: {{ ansible_net_hostname }}\n Device OS: {{ ansible_net_iostype }}\n OS version: {{ ansible_net_version }}"
+      when:
+       - ansible_net_system=='ios'
+      ignore_errors: yes
+
+    - name: Displaying facts of IOSXR devices.
+      debug:
+        # msg: "{{ results }}"
+        msg: "Device name: {{ ansible_net_hostname }}\n Device OS: {{ ansible_net_model }}\n OS version: {{ ansible_net_version }}"
+      when:
+       - ansible_net_system=='iosxr'
+      ignore_errors: yes
+
+    - name: Displaying facts of NXOS devices.
+      debug:
+        # msg: "{{ results }}"
+        msg: "Device name: {{ ansible_net_hostname }}\n Device OS: {{ ansible_net__platform }}\n OS version: {{ ansible_net_version }}"
+      when:
+       - ansible_net_system=='nxos'
+      ignore_errors: yes

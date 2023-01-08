@@ -1,0 +1,31 @@
+---
+- name: Getting device facts
+  connection: network_cli
+  hosts: cisco_dc_switches
+  gather_facts: no
+  vars:
+    ansible_python_interpreter: /usr/bin/python3.6
+
+  tasks:
+  # - name: Task to capture show version output
+  #   cisco.ios.ios_facts:
+  #     gather_subset: all
+  #     # gather_network_resources: all
+  #   # cisco.ios.ios_command:
+  #   #   commands:
+  #   #   - show version
+  #   #   - show ip interface brief
+  #   register: data
+
+  - name: Task to capture facts
+    nxos_facts:
+      gather_subset: hardware
+    register: data
+
+  - name: debug
+    debug:
+      msg: "{{ data }}"
+  
+  # - name: Backup device config
+  #   cisco.ios.ios_config:
+  #     backup: yes

@@ -1,0 +1,7 @@
+---
+- name: Configuring protocols on IOS device
+  ignore_errors: True
+  ios_config:
+    src: ../templates/proto_config_template_ios.j2
+    match: none
+    save_when: modified

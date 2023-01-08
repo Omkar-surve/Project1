@@ -1,0 +1,16 @@
+---
+#NOTE:
+##Playbook demonstrating FOR loop indexing using jinja template. Check indentation format in demo-for-loop-indexing.j2 and output in demo-for-loop-indexing.text
+- name: Playbook to demonstrate For Loop indexing.
+  hosts: localhost
+  gather_facts: false
+  vars:
+    dir_datas: [10,20,30,/,40]
+  tasks:
+  - name: Loop indexing using pause renderer.
+    ansible.builtin.pause:
+      prompt: "{{ lookup('template', '../ansible_basics_j2/demo-for-loop-indexing.j2') }}"
+  - name: Saving Loop indexing output to a file.
+    template:
+      src: '../ansible_basics_j2/demo-for-loop-indexing.j2'
+      dest: '../ansible_basics_j2/output/demo-for-loop-indexing.text'

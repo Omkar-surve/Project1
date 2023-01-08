@@ -1,0 +1,10 @@
+This is the summary of the IOSXR device
+===================================================
+Device hostname: vyos9
+vyos version: VyOS 1.4-rolling-202211120317
+PID: vyos
+Mgmt Interfaces:
+Mgmt IPv4: 10.10.1.9/16
+Mgmt IPv6: 2001:db8:10:10:1::9/64
+Mgmt Interface: eth0
+=================

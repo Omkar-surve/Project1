@@ -1,0 +1,14 @@
+---
+#NOTES
+##Playbook demonstrating FOR loop filtering using jinja template.
+- name: Playbook to demonstrate FOR loop filtering.
+  hosts: localhost
+  gather_facts: false
+  vars:
+    dir_datas: [10,20,/,30,40]
+  
+  tasks:
+  - name: For loop filtering using jinja2 template
+    template:
+      src: '../ansible_basics_j2/demo-for-loop-filtering.j2'
+      dest: '../ansible_basics_j2/output/demo-for-loop-filtering.text'

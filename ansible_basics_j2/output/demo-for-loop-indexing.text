@@ -1,0 +1,9 @@
+#FOR LOOP indexing (Comma appended correctly in the list)
+#Horizontal list
+data_dir = 10,20,30,40
+#Vertical list
+data_dir2 = 10,
+            20,
+            30,
+            40
+            

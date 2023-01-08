@@ -1,0 +1,21 @@
+---
+#NOTE:
+#This playbook demonstrate use of inline condition within the play as well as using jinja2 template
+- name: Playbook to demonstrate inline condition.
+  hosts: localhost
+  gather_facts: false
+  vars:
+    api:
+      v2: true
+  tasks:
+  - name: Inline condition task.
+    ansible.builtin.debug:
+      msg: API= "cinder{{"v2" if api.v2 else ""}}"
+      #LOGIC:
+      # if {api: {'v2': true}} then API = cinderv2
+      # else API = cinder
+  - name: Same above task with output written to files.
+    template:
+      src: "../ansible_basics_j2/demo-inline-condition.j2"
+      dest: "../ansible_basics_j2/output/demo-inline-condition.conf"
+    

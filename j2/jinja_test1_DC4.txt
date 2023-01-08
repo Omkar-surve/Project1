@@ -1,0 +1,7 @@
+This is the summary of the NXOS device
+===================================================
+Device hostname: DC4
+nxos version: 7.3(0)D1(1)
+PID: N7K-C7018
+Mgmt IPv4: 10.10.1.4
+Mgmt IPv6: None

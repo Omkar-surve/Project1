@@ -1,0 +1,56 @@
+---
+interfaces:
+    Loopback0:
+      intf_description: Routing Interface
+      ipv4: '35.0.0.1'
+      ipv4_addr: 35.0.0.1/32
+      ipv6_addr: 2001:db8:35::1/64
+      ipv6_addr_ll: 'fe80::1'
+    MgmtEth0/0/CPU0/0:
+      intf_description: Mgmt Interface
+      ipv4_addr: 10.10.1.1/16
+      ipv6_addr: 2001:db8:10:10:1::1/64
+      ipv6_addr_ll: 'fe80::1'
+    GigabitEthernet0/0/0/0:
+      intf_description: 'AS65533 Towards R8 Eth0/1'
+      ipv4_addr: 18.33.35.1/24
+      ipv6_addr: 2001:db8:18:33:35::1/112
+      ipv6_addr_ll: 'fe80::1'
+    GigabitEthernet0/0/0/1:
+      intf_description: 'AS65534 Towards R2 Eth0/1'
+      ipv4_addr: 12.34.35.1/24
+      ipv6_addr: 2001:db8:12:34:35::1/112
+      ipv6_addr_ll: 'fe80::1'
+
+protocols:
+  BGP:
+    ASN: 65535
+    local_ipv4_route: 35.0.0.1/32
+    local_ipv6_route: 2001:db8:35::1/128
+    global:
+      addr_type:
+      - ipv4
+      - ipv6
+    neighbors:
+      R2:
+        neighbor_type: EBGP
+        neighbor_IP: 12.34.35.2
+        neighbor_ASN: 65534
+        neighbor_addr_type:
+          ipv4:
+            in_policy: PASS
+            out_policy: PASS
+          ipv6:
+            in_policy: PASS
+            out_policy: PASS
+      R8:
+        neighbor_type: EBGP
+        neighbor_IP: 18.33.35.8
+        neighbor_ASN: 65533
+        neighbor_addr_type:
+          ipv4:
+            in_policy: PASS
+            out_policy: PASS
+          ipv6:
+            in_policy: PASS
+            out_policy: PASS

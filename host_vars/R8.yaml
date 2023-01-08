@@ -1,0 +1,98 @@
+---
+interfaces:
+    Loopback0:
+      intf_description: Routing Interface
+      ipv4: '33.0.0.8'
+      ipv4_addr: 33.0.0.8 255.255.255.255
+      ipv6_addr: 2001:db8:33::8/64
+      ipv6_addr_ll: 'fe80::8'
+    Ethernet0/0:
+      intf_description: Mgmt Interface
+      ipv4_addr: 10.10.1.8 255.255.0.0
+      ipv6_addr: 2001:db8:10:10:1::8/64
+      ipv6_addr_ll: 'fe80::8'
+    Ethernet0/1:
+      intf_description: 'AS65535 Towards R1 Gi0/0/0/0'
+      ipv4_addr: 18.33.35.8 255.255.255.0
+      ipv6_addr: 2001:db8:18:33:35::8/112
+      ipv6_addr_ll: 'fe80::8'
+    Ethernet0/2:
+      intf_description: 'AS65533 Towards R5 Eth0/1'
+      ipv4_addr: 58.33.33.8 255.255.255.0
+      ipv6_addr: 2001:db8:58:33:33::8/112
+      ipv6_addr_ll: 'fe80::8'
+    Ethernet0/3:
+      intf_description: 'AS65533 Towards R7 Eth0/1'
+      ipv4_addr: 78.33.33.8 255.255.255.0
+      ipv6_addr: 2001:db8:78:33:33::8/112
+      ipv6_addr_ll: 'fe80::8'
+
+protocols:
+  ISIS:
+    process_name: CORE65533
+    process_type: level-2-only
+    process_net_addr: '49.0001.3300.0008.00'
+    adv_passive: 'True'
+    enable_ipv6: 'True'
+    adv_passive_v6: 'True'
+    intf:
+      enable_ipv4: 'True'
+      enable_ipv6: 'True'
+    global:
+      addr_type:
+      - ipv4
+      - ipv6
+      interfaces:
+      - Ethernet0/2
+      - Ethernet0/3
+  #BGP host vars
+  BGP:
+    ASN: 65533
+    local_ipv4_route: 33.0.0.8
+    local_ipv6_route: 2001:db8:33::8/128
+    global:
+      addr_type:
+      - vpnv4
+      - vpnv6
+    neighbors:
+      R7:
+        neighbor_type: IBGP
+        neighbor_IP: 33.0.0.7
+        neighbor_addr_type:
+          vpnv4:
+            in_policy: ACL_PASS_v4
+            out_policy: ACL_PASS_v4
+          vpnv6:
+            in_policy: ACL_PASS_v6
+            out_policy: ACL_PASS_v6
+      R5:
+        neighbor_type: IBGP
+        neighbor_IP: 33.0.0.5
+        neighbor_addr_type:
+          vpnv4:
+            in_policy: ACL_PASS_v4
+            out_policy: ACL_PASS_v4
+          vpnv6:
+            in_policy: ACL_PASS_v6
+            out_policy: ACL_PASS_v6
+      R3:
+        neighbor_type: IBGP
+        neighbor_IP: 33.0.0.3
+        neighbor_addr_type:
+          vpnv4:
+            in_policy: ACL_PASS_v4
+            out_policy: ACL_PASS_v4
+          vpnv6:
+            in_policy: ACL_PASS_v6
+            out_policy: ACL_PASS_v6
+      R1:
+        neighbor_type: EBGP
+        neighbor_IP: 18.33.35.1
+        neighbor_ASN: 65535
+        neighbor_addr_type:
+          ipv4:
+            in_policy: ACL_PASS_v4
+            out_policy: ACL_PASS_v4
+          ipv6:
+            in_policy: ACL_PASS_v6
+            out_policy: ACL_PASS_v6

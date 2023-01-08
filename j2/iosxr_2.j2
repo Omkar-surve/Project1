@@ -1,0 +1,34 @@
+{%if log.ansible_facts.ansible_net_system == "iosxr" -%}
+This is the summary of the IOSXR device
+===================================================
+Device hostname: {{ log.ansible_facts.ansible_net_hostname }}
+{{ log.ansible_facts.ansible_net_model }} version: {{ log.ansible_facts.ansible_net_version }}
+PID: {{ log.ansible_facts.ansible_net_system }}
+{% if log.ansible_facts.ansible_net_all_ipv4_addresses -%}
+Mgmt IPv4: {{ log.ansible_facts.ansible_net_all_ipv4_addresses[0] }}
+{% else -%}
+Mgmt IPv4: None
+{% endif -%}
+{% if log.ansible_facts.ansible_net_all_ipv6_addresses -%}
+Mgmt IPv6: {{ log.ansible_facts.ansible_net_all_ipv6_addresses[0]|to_json|from_json }}
+{% else -%}
+Mgmt IPv6: None
+{% endif -%}
+Mgmt Interfaces:
+{% for i,j in log.ansible_facts.ansible_net_interfaces.items() -%}
+{% if j|to_json(ensure_ascii=true)|from_json -%}
+{% set data_ipv6 = j|to_json|from_json-%}
+{% for m,n in data_ipv6.items()%}
+{% if m=='ipv6' -%}
+{% set ipv6_addr = n|to_json|from_json -%}
+{% if test -%}
+{{i}} : {{test[0].address}}
+{%endif -%}
+{#% if m=="address" and n==log.ansible_facts.ansible_net_all_ipv6_addresses[0]%}
+IPv6 MGMT Port:
+{{i}} : {{n}}#}
+{% endif -%}
+{% endfor -%}
+{% endif -%}
+{% endfor -%}
+{% endif -%}

@@ -1,0 +1,66 @@
+---
+- name: Test playbook to configure hosts
+  # hosts: [ios_routers,iosxr_routers]
+  hosts:
+  - iosxr_routers
+  gather_facts: false
+  become: no
+  vars:
+    - ansible_python_interpreter: /usr/bin/python3.6
+
+  tasks:
+  # - name: Configuring interfaces on IOS device
+  #   ignore_errors: True
+  #   ios_config:
+  #     src: ../j2/intf_config_template_ios.j2
+  #     match: none
+  #     save_when: modified
+  #   # when:
+  #   # - ansible_net_system: ios
+
+  # - name: Configuring interfaces on IOSXR device
+  #   ignore_errors: True
+  #   iosxr_config:
+  #     src: ../j2/intf_config_template_iosxr.j2
+  #     match: none
+  #   # when:
+    # - ansible_net_system: iosxr
+
+    # notify:
+    # - Save IOS device configuration
+  # - name: Test
+  #   debug:
+  #     msg: "{{item}}"
+  #   loop: "{{ interfaces | dict2items }}"
+
+  # handlers:
+  # - name: Save IOS device configuration
+  #   ios_config:
+  #     backup: yes
+  #     backup_options:
+  #       filename: '{{ansible_net_hostname}}_backup.cfg'
+  #       dir_path: '../j2/'
+
+  # - name: Configuring protocols on IOSXR device
+  #   ignore_errors: True
+  #   iosxr_config:
+  #     src: ../j2/proto_config_template_iosxr.j2
+  #     match: none
+
+  - name: Configuring protocols on IOS device
+    ignore_errors: True
+    ios_config:
+      src: ../j2/proto_config_template_ios.j2
+      match: none
+
+  # - name: show commands on IOSXR device
+  #   ignore_errors: True
+  #   ios_command:
+  #     commands:
+  #     - show configuration failed
+
+  # - name: Testing IOS hosts.
+  #   # ignore_errors: True
+  #   cisco.ios.ios_facts:
+  #     gather_subset: '!min'
+  #   register: log

@@ -1,0 +1,8 @@
+ansible_python_interpreter: /usr/bin/python3.6
+destination: 10.10.0.5
+source_interface: Ethernet0/0
+# {"interface":"ethernet0/0"}
+
+log_date: "{{ ansible_date_time.iso8601_basic_short }}"
+log_dir: "../logs"
+log_file: "netops_playbooks/logs/{{inventory_hostname}}.log"

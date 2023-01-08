@@ -1,0 +1,22 @@
+---
+#Define Playbook paramters
+- name: "A play that verifies access to hosts in host-group all"
+  hosts: R3
+  gather_facts: no
+
+  tasks:
+  #Define multiple tasks
+  - name: "Checking ping response to all hosts"
+    #plugin to perform ping_pong basic
+    ping:
+    register: ping_pong
+
+  - name: "Checking debug response to all hosts"
+    debug:
+      msg: "debug module successful"
+      # msg: "{{ ping_pong }}"
+
+  - name: "Check whether ping response is successfull"
+    #Check whether result is expected using pre-registered variable assert
+    assert:
+      that: ping_pong.ping == "pong"

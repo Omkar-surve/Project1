@@ -1,0 +1,9 @@
+---
+- name: write magic variables to a file using template.
+  hosts: ios_routers
+
+  tasks:
+  - name: do it.
+    template:
+      src: /home/cisco/Desktop/ansible_labs/Project1/j2/magic.j2
+      dest: magic.out

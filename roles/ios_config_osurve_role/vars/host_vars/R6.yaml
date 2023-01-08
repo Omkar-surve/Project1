@@ -1,0 +1,73 @@
+---
+interfaces:
+  Loopback0:
+    intf_description: Routing Interface
+    ipv4_addr: 36.0.0.6 255.255.255.255
+    ipv6_addr: 2001:db8:36::6/64
+    ipv6_addr_ll: 'fe80::6'
+    ipv4: '36.0.0.6'
+  Ethernet0/0:
+    intf_description: Mgmt Interface
+    ipv4_addr: 10.10.1.6 255.255.0.0
+    ipv6_addr: 2001:db8:10:10:1::6/64
+    ipv6_addr_ll: 'fe80::6'
+  Ethernet0/1:
+    intf_description: 'AS65533 Towards R3 Gi0/0/0/1'
+    ipv4_addr: 36.33.36.6 255.255.255.0
+    ipv6_addr: 2001:db8:36:33:36::6/112
+    ipv6_addr_ll: 'fe80::6'
+  Ethernet0/2:
+    intf_description: 'AS65533 Towards R7 Eth0/2'
+    ipv4_addr: 67.33.36.6 255.255.255.0
+    ipv6_addr: 2001:db8:67:33:36::6/112
+    ipv6_addr_ll: 'fe80::6'
+  Ethernet0/3:
+    intf_description: 'AS65536 Towards DC4 Eth2/1'
+    ipv4_addr: 46.36.36.6 255.255.255.0
+    ipv6_addr: 2001:db8:46:36:36::6/112
+    ipv6_addr_ll: 'fe80::6'
+
+protocols:
+  #OSPF host vars
+  #BGP host vars
+  BGP:
+    ASN: 65530
+    local_ipv4_route: 36.0.0.6
+    local_ipv6_route: 2001:db8:36::6/128
+    global:
+      addr_type:
+      - ipv4
+      - ipv6
+    neighbors:
+      DC4:
+        neighbor_type: IBGP
+        neighbor_IP: 36.0.0.4
+        neighbor_addr_type:
+          ipv4:
+            in_policy: ACL_PASS_v4
+            out_policy: ACL_PASS_v4
+          ipv6:
+            in_policy: ACL_PASS_v6
+            out_policy: ACL_PASS_v6
+      R3:
+        neighbor_type: EBGP
+        neighbor_IP: 36.33.36.3
+        neighbor_ASN: 65533
+        neighbor_addr_type:
+          ipv4:
+            in_policy: ACL_PASS_v4
+            out_policy: ACL_PASS_v4
+          ipv6:
+            in_policy: ACL_PASS_v6
+            out_policy: ACL_PASS_v6
+      R7:
+        neighbor_type: EBGP
+        neighbor_IP: 67.33.36.7
+        neighbor_ASN: 65533
+        neighbor_addr_type:
+          ipv4:
+            in_policy: ACL_PASS_v4
+            out_policy: ACL_PASS_v4
+          ipv6:
+            in_policy: ACL_PASS_v6
+            out_policy: ACL_PASS_v6

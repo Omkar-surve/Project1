@@ -1,0 +1,6 @@
+#For loop filtering
+{% for dir in dir_datas if dir != "/" -%}
+dir_data = {{ dir }}
+{% else -%}
+no dir data
+{% endfor -%}

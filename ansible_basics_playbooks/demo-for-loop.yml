@@ -1,0 +1,29 @@
+---
+#NOTE:
+#Playbook demonstrating FOR loop operation within the play and using jinja.
+- name: Playbook demonstrating FOR loop operation.
+  hosts: localhost
+  gather_facts: false
+  vars:
+    #defining a list with entries
+    # dir_datas:
+    # - 10
+    # - 20
+    # - 30
+    # - 40
+    dir_datas: [10,20,30,40]
+
+    # empty list variable
+    # dir_datas: []
+  tasks:
+  - name: using ansible.builtin.pause renderer
+    ansible.builtin.pause:
+      prompt: "{{ lookup('template', '../ansible_basics_j2/demo-for-loop.j2')}}"
+  - name: using debug module
+    ansible.builtin.debug:
+      msg: "{{ lookup('template', '../ansible_basics_j2/demo-for-loop.j2')}}"
+  - name: storing output in a files.
+    #using template module to store the rendered output to a file.
+    template:
+      src: '../ansible_basics_j2/demo-for-loop.j2'
+      dest: '../ansible_basics_j2/output/demo-for-loop.text'

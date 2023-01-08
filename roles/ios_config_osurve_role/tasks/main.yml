@@ -1,0 +1,7 @@
+---
+# tasks file for ios_config_osurve_role
+  - name: Device Configuration
+    include_tasks: "{{ item }}"
+    loop:
+    - 'interface_config.yml'
+    - 'routing_config.yml'

@@ -1,0 +1,4 @@
+1) filer garbage output: Here filtering fortios and nios lines.
+[cisco@ansible Project1]$ ansible-doc -t module -l | grep ios_ | awk '!/fortios/&&!/nios/'
+
+=================================

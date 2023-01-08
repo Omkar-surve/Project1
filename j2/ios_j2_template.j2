@@ -1,0 +1,17 @@
+{%if log1.ansible_facts.ansible_net_system == "ios" -%}
+This is the summary of the IOS device
+===================================================
+Device hostname: {{ log1.ansible_facts.ansible_net_hostname }}
+{{ log1.ansible_facts.ansible_net_iostype }} version: {{ log1.ansible_facts.ansible_net_version }}
+PID: {{ log1.ansible_facts.ansible_net_system }}
+{% if log1.ansible_facts.ansible_net_all_ipv4_addresses -%}
+Mgmt IPv4: {{ log1.ansible_facts.ansible_net_all_ipv4_addresses[0] }}
+{% else -%}
+Mgmt IPv4: None
+{% endif -%}
+{% if log1.ansible_facts.ansible_net_all_ipv6_addresses -%}
+Mgmt IPv6: {{ log1.ansible_facts.ansible_net_all_ipv6_addresses[0] }}
+{% else -%}
+Mgmt IPv6: None
+{% endif -%}
+{% endif -%}

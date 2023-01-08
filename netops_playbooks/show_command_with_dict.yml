@@ -1,0 +1,32 @@
+---
+- name: Show interface check using with_dict function.
+  hosts: [ios_routers, iosxr_routers]
+  # hosts: ios_routers
+  gather_facts: no
+
+  vars_files:
+    - "../vars/myvars.yml"
+  
+  tasks:
+  - name: Checking show command
+  #Play working.
+    ios_facts:
+      gather_subset: all
+    register: show_output
+    #above output MUST have dictionary with keys and values to work. If a dictionary starts with list i.e. it does not have any key element, it will throw as error when using "with_dict" and "when" conditional variables.
+    when: ansible_network_os == 'ios'
+
+  - name: Show command output
+  # Play working.
+    debug:
+      msg: "{{ show_output }}"
+    with_dict: "{{ ansible_net_interfaces }}"
+    when:
+     - item.key == source_interface
+     - item.value['operstatus'] == 'up'
+     - ansible_network_os == 'ios'
+
+  - name: Printing filtered_output
+  # Play not working.
+    debug:
+      msg: "{{show_output.ansible_net_interfaces}}.{{source_interface}}"

@@ -1,0 +1,15 @@
+---
+- name: "A play that verifies access to hosts in host-group all"
+  hosts: [ios_routers,iosxr_routers]
+  gather_facts: no
+
+  tasks:
+
+  - name: "Show the value of key variables."
+    debug:
+      msg: >
+        hostname: "{{ inventory_hostname }}",
+        con: "{{ ansible_connection }}",
+        nos: "{{ ansible_network_os }}",
+        user: "{{ ansible_user }}",
+        pass: "{{ ansible_ssh_pass }}"

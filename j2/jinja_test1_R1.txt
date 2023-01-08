@@ -1,0 +1,13 @@
+This is the summary of the IOSXR device
+===================================================
+Device hostname: R1
+IOS XRv version: 6.0.1[Default]
+PID: iosxr
+Mgmt IPv4: 10.10.1.1
+Primary Mgmt IPv6: 2001:db8:10:10:1::10
+Mgmt Interfaces:
+IPv4 MGMT Port:
+MgmtEth0/0/CPU0/0 : 10.10.1.1
+IPv6 MGMT Port:
+MgmtEth0/0/CPU0/0 : 2001:db8:10:10:1::10
+=================

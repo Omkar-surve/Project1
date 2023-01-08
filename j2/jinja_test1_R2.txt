@@ -1,0 +1,7 @@
+This is the summary of the IOS device
+===================================================
+Device hostname: R2
+IOS version: 15.2(4)M5.3
+PID: ios
+Mgmt IPv4: 10.10.1.2
+Mgmt IPv6: 2001:DB8:10:10:1::12

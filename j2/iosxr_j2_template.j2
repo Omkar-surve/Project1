@@ -1,0 +1,66 @@
+{%if log.ansible_facts.ansible_net_system == "iosxr" -%}
+This is the summary of the IOSXR device
+===================================================
+Device hostname: {{ log.ansible_facts.ansible_net_hostname }}
+{{ log.ansible_facts.ansible_net_model }} version: {{ log.ansible_facts.ansible_net_version }}
+PID: {{ log.ansible_facts.ansible_net_system }}
+{% if log.ansible_facts.ansible_net_all_ipv4_addresses -%}
+Mgmt IPv4: {{ log.ansible_facts.ansible_net_all_ipv4_addresses[0] }}
+{% else -%}
+Mgmt IPv4: None
+{% endif -%}
+{% if log.ansible_facts.ansible_net_all_ipv6_addresses -%}
+Primary Mgmt IPv6: {{ log.ansible_facts.ansible_net_all_ipv6_addresses[0] }}
+{% else -%}
+Mgmt IPv6: None
+{% endif -%}
+Mgmt Interfaces:
+{% for i,j in log.ansible_facts.ansible_net_interfaces.items() -%}
+{# Running FOR Loop over all interfaces in dictionary ansible_net_interface #}
+{% if j.ipv4 -%}
+{# Here "i" is interface name and j is a dictionary of parameters with it's values #}
+{% set data_ipv4 = j.ipv4|to_json(ensure_ascii=true)|from_json-%}
+{# Set a new variable "data" and parse 'j.ipv4' 1st to 'to_json' with ascii==true, and then back to 'from_json' to get output as a dictionary.
+The reason we are doing this is because of following output.
+{{j.ipv4}} gives this output > {u'masklen': 16, u'address': u'10.10.1.1'}
+This is a unicode "string". We cannot convert it into dictionary directly. So first we converted it into JSON object with ascii=true to convert unicode to ascii format.
+Once we have the json object we dump the json object (with ascii format) which got converted into dictionary. Over which we can iterate.
+Although {{data}} will again show output as {u'masklen': 16, u'address': u'10.10.1.1'} we can still iterate over it as it is a dictionary now.
+#}
+{#{{data}}#}
+{% for m,n in data_ipv4.items()%}
+{# Running FOR Loop over all items in dictionary data #}
+{% if m=="address" and n==log.ansible_facts.ansible_net_all_ipv4_addresses[0]%}
+{# Comparing whether the mgmt IP is equal to interface IP#}
+IPv4 MGMT Port:
+{{i}} : {{n}}
+{# Printing respective mgmt interface name#}
+{% endif -%}
+{% endfor -%}
+{#% endif -%#}
+{# Here "i" is interface name and j is a dictionary of parameters with it's values #}
+{% set data_ipv6 = j|to_json|from_json-%}
+{# Set a new variable "data" and parse 'j.ipv4' 1st to 'to_json' with ascii==true, and then back to 'from_json' to get output as a dictionary.
+The reason we are doing this is because of following output.
+{{j.ipv4}} gives this output > {u'masklen': 16, u'address': u'10.10.1.1'}
+This is a unicode "string". We cannot convert it into dictionary directly. So first we converted it into JSON object with ascii=true to convert unicode to ascii format.
+Once we have the json object we dump the json object (with ascii format) which got converted into dictionary. Over which we can iterate.
+Although {{data}} will again show output as {u'masklen': 16, u'address': u'10.10.1.1'} we can still iterate over it as it is a dictionary now.
+#}
+{#{{data}}#}
+{% for m,n in data_ipv6.items()%}
+{# Running FOR Loop over all items in dictionary data #}
+{% if m=='ipv6' -%}
+{% set ipv6_addr = n|to_json|from_json -%}
+{% if ipv6_addr -%}
+{# Comparing whether the mgmt IP is equal to interface IP#}
+IPv6 MGMT Port:
+{{i}} : {{ipv6_addr[0].address}}
+{%endif -%}
+{# Printing respective mgmt interface name#}
+{% endif -%}
+{% endfor -%}
+{% endif -%}
+{% endfor -%}
+{% endif -%}
+=================

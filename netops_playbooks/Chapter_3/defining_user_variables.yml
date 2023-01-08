@@ -1,0 +1,30 @@
+---
+- name: Playbook to show use of user variable.
+  hosts: all
+  gather_facts: no
+  vars:
+  - destination: 10.10.0.5
+
+  tasks:
+  - name: Ping from IOS and IOS-XR device.
+    cisco.ios.ios_ping:
+      dest: "{{ destination }}"
+    when:
+    - ansible_network_os == 'ios' or ansible_network_os == 'iosxr'
+    register: ios_ping_result
+
+  - name: Ping from NXOS device.
+    nxos_ping:
+      dest: "{{ destination }}"
+      vrf: management
+    when:
+    - ansible_network_os == 'nxos'
+    register: nxos_ping_result
+
+  - name: Ping from Vyos device.
+    vyos_ping:
+      dest: "{{ destination }}"
+      source: eth0
+    when:
+    - ansible_network_os == 'vyos'
+    register: vyos_ping_result

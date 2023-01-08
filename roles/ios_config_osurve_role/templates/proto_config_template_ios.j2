@@ -1,0 +1,106 @@
+{%for protocol,value in protocols.items()-%}
+{#
+ISIS Protocol Configuration
+#}
+{%if protocol=='ISIS'-%}
+router isis {{value.process_name}}
+net {{value.process_net_addr}}
+is-type {{value.process_type}}
+{%if value.adv_passive=='True'-%}
+advertise passive-only
+passive-interface Loopback0
+{%endif-%}
+{%if value.enable_ipv6=='True'-%}
+metric-style wide
+address-family ipv6
+multi-topology
+{%if value.adv_passive_v6=='True'-%}
+advertise passive-only
+{%endif-%}
+exit-address-family
+{%endif-%}
+exit
+{% for i in value.global.interfaces-%}
+interface {{i}}
+{%if value.intf.enable_ipv4=='True'-%}
+ip router isis {{value.process_name}}
+{%endif-%}
+{%if value.intf.enable_ipv6=='True'-%}
+ipv6 router isis {{value.process_name}}
+{%endif-%}
+isis network point-to-point
+exit
+{%endfor-%}
+{#{%endif-%}
+{%endfor-%}
+{#
+BGP Protocol Configuration
+#}
+{%elif protocol=='BGP'-%}
+router bgp {{value.ASN}}
+bgp router-id {{interfaces.Loopback0.ipv4}}
+bgp log-neighbor-changes
+{% for i in value.global.addr_type-%}
+address-family {{i}} unicast
+{% if i == 'ipv4'-%}
+network {{value.local_ipv4_route}} mask 255.255.255.255
+{% elif i=='ipv6'-%}
+network {{value.local_ipv6_route}}
+{%endif-%}
+exit-address-family
+{%endfor-%}
+{%for j,k in value.neighbors.items()-%}
+{%if k.neighbor_type=='EBGP'-%}
+neighbor {{k.neighbor_IP}} remote-as {{k.neighbor_ASN}}
+neighbor {{k.neighbor_IP}} description {{j}} | EBGP Neighbor | PEER ASN {{k.neighbor_ASN}}
+{%elif k.neighbor_type=='IBGP'%}
+neighbor {{k.neighbor_IP}} remote-as {{value.ASN}}
+neighbor {{k.neighbor_IP}} description {{j}} | IBGP Neighbor | PEER ASN {{value.ASN}}
+neighbor {{k.neighbor_IP}} update-source Loopback0
+!
+{%for n,p in k.neighbor_addr_type.items()-%}
+{%if n=='ipv4'%}
+address-family ipv4
+neighbor {{k.neighbor_IP}} activate
+neighbor {{k.neighbor_IP}} send-community extended
+neighbor {{k.neighbor_IP}} route-map {{p.in_policy}} in
+neighbor {{k.neighbor_IP}} route-map {{p.out_policy}} out
+{% if k.neighbor_type=='EBGP'-%}
+neighbor {{k.neighbor_IP}} next-hop-self
+{%endif-%}
+exit-address-family
+!
+{%else-%}
+address-family ipv4
+no neighbor {{k.neighbor_IP}} activate
+exit-address-family
+!
+address-family {{n}}
+neighbor {{k.neighbor_IP}} activate
+neighbor {{k.neighbor_IP}} send-community extended
+neighbor {{k.neighbor_IP}} route-map {{p.in_policy}} in
+neighbor {{k.neighbor_IP}} route-map {{p.out_policy}} out
+{% if k.neighbor_type=='EBGP'-%}
+neighbor {{k.neighbor_IP}} next-hop-self
+{%endif-%}
+exit-address-family
+!
+{%endif-%}
+{%endfor-%}
+{%endif-%}
+{%endfor-%}
+{%endif-%}
+{%endfor-%}
+
+{#
+Route-map Protocol Configuration
+#}
+ip access-list extended ACL_PASS_v4
+ permit ip any any
+route-map PASSv4 permit 10
+ match ip address ACL_PASS_v4
+
+ipv6 access-list ACL_PASS_v6
+ permit ipv6 any any
+route-map PASSv6 permit 10
+ match ipv6 address ACL_PASS_v6

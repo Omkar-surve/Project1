@@ -1,0 +1,17 @@
+{%if log2.ansible_facts.ansible_net_system == "nxos" -%}
+This is the summary of the NXOS device
+===================================================
+Device hostname: {{ log2.ansible_facts.ansible_net_hostname }}
+{{ log2.ansible_facts.ansible_net_system }} version: {{ log2.ansible_facts.ansible_net_version }}
+PID: {{ log2.ansible_facts.ansible_net_platform }}
+{% if log2.ansible_facts.ansible_net_all_ipv4_addresses -%}
+Mgmt IPv4: {{ log2.ansible_facts.ansible_net_all_ipv4_addresses[0] }}
+{% else -%}
+Mgmt IPv4: None
+{% endif -%}
+{% if log2.ansible_facts.ansible_net_all_ipv6_addresses -%}
+Mgmt IPv6: {{ log2.ansible_facts.ansible_net_all_ipv6_addresses[0] }}
+{% else -%}
+Mgmt IPv6: None
+{% endif -%}
+{% endif -%}

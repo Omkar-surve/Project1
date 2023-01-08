@@ -1,0 +1,19 @@
+#FOR LOOP indexing (Comma appended correctly in the list)
+#Horizontal list
+{% for dir in dir_datas if dir != '/' -%}
+{% if loop.first -%}
+data_dir = {{ dir }}{{',' if not loop.last else ""}}{% else -%}{{ dir }}{{',' if not loop.last else ""}}{% endif -%}
+{% else -%}
+no dir data
+{% endfor %}
+
+#Vertical list
+{% for dir in dir_datas if dir != '/' -%}
+{% if loop.first -%}
+data_dir2 = {{ dir }}{{',' if not loop.last else ""}}
+            {% else -%}
+            {{ dir }}{{',' if not loop.last else ""}}
+            {% endif -%}
+{% else -%}
+no dir data
+{% endfor -%}

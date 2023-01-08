@@ -1,0 +1,21 @@
+---
+- name: "IOS PING playbook with vars_file option"
+  hosts: [ios_routers,iosxr_routers]
+  gather_facts: no
+  vars:
+    ansible_python_interpreter: /usr/bin/python3.6
+    #We can use this section to define variables which will be used by this playbook/plays below.
+    destination: 10.10.1.5
+
+  tasks:
+
+  - name: Check ping to "{{destination}}" from IOS Device
+    #This task uses the destination value defined above under vars section
+    ios_ping:
+      dest: "{{destination}}"
+    register: result
+      
+  - name: Printing ping response
+    #This task is print the output collected in registered variable "data" which is present in above task.
+    debug:
+      msg: "Packet loss: {{result.packet_loss}}"

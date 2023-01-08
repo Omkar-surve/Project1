@@ -1,0 +1,5 @@
+---
+- name: Main playbook to call ios_config_osurve_role
+  hosts: ios_routers
+  roles:
+  - ../roles/ios_config_osurve_role

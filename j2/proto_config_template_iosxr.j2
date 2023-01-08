@@ -1,0 +1,79 @@
+{%for protocol,value in protocols.items()-%}
+route-policy PASS
+  pass
+end-policy
+{#
+ISIS Protocol Configuration
+#}
+{%if protocol=='ISIS'-%}
+router isis {{value.process_name}}
+is-type {{value.process_type}}
+net {{value.process_net_addr}}
+{% for i in value.global.addr_type-%}
+address-family {{i}} unicast
+advertise passive-only
+{%endfor-%}
+exit
+{% for i in value.global.interfaces-%}
+interface {{i}}
+{%if i=='Loopback0'-%}
+passive
+address-family ipv4 unicast
+address-family ipv6 unicast
+{%else-%}
+address-family ipv4 unicast
+address-family ipv6 unicast
+{%endif-%}
+exit
+{%endfor-%}
+{#
+BGP Protocol Configuration
+#}
+{%elif protocol=='BGP'-%}
+router bgp {{value.ASN}}
+bgp router-id {{interfaces.Loopback0.ipv4}}
+{% for i in value.global.addr_type-%}
+address-family {{i}} unicast
+{% if i == 'ipv4'-%}
+network {{value.local_ipv4_route}}
+{% elif i=='ipv6'-%}
+network {{value.local_ipv6_route}}
+{%endif-%}
+{%endfor-%}
+{%for j,k in value.neighbors.items()-%}
+neighbor {{k.neighbor_IP}}
+{% if k.neighbor_type=='EBGP'-%}
+description {{j}} | EBGP Neighbor | PEER ASN {{k.neighbor_ASN}}
+remote-as {{k.neighbor_ASN}}
+{%elif k.neighbor_type=='IBGP'%}
+description {{j}} | IBGP Neighbor | PEER ASN {{value.ASN}}
+remote-as {{value.ASN}}
+update-source Loopback0
+{%endif-%}
+{%for n,p in k.neighbor_addr_type.items()-%}
+address-family {{n}} unicast
+route-policy {{p.in_policy}} in
+route-policy {{p.out_policy}} out
+next-hop-self
+exit
+{%endfor-%}
+{%endfor-%}
+{#
+OSPF Protocol Configuration
+#}
+{%elif protocol=='OSPF'-%}
+router ospf {{value.process_name}}
+router-id {{value.process_name,routerID}}
+address-family ipv4 unicast
+area {{value.process_name,areaID}}
+{% for i in value.process_name.global.interfaces-%}
+interface {{i}}
+{%if i=='Loopback0'-%}
+passive
+{%endif-%}
+{%endfor-%}
+{#
+MPLS Protocol Configuration
+#}
+{%endif-%}
+{%endfor-%}

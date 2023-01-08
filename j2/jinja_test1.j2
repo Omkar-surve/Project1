@@ -1,0 +1,50 @@
+{% if {{ loggggg.ansible_facts.ansible_net_system }} == 'iosxr' -%}
+This is the summary of the IOSXR device
+===================================================
+Device hostname: {{ loggggg.ansible_facts.ansible_net_hostname }}
+{{ loggggg.ansible_facts.ansible_net_model }} version: {{ loggggg.ansible_facts.ansible_net_version }}
+PID: {{ loggggg.ansible_facts.ansible_net_system }}
+{% if loggggg.ansible_facts.ansible_net_all_ipv4_addresses -%}
+Mgmt IPv4: {{ loggggg.ansible_facts.ansible_net_all_ipv4_addresses[0] }}
+{% else -%}
+Mgmt IPv4: None
+{% endif -%}
+{% if loggggg.ansible_facts.ansible_net_all_ipv6_addresses -%}
+Mgmt IPv6: {{ loggggg.ansible_facts.ansible_net_all_ipv6_addresses.[0] }}
+{% else -%}
+Mgmt IPv6: None
+{% endif -%}
+{% elif {{ loggggg.ansible_facts.ansible_net_system }} == 'ios' -%}
+This is the summary of the IOS device
+===================================================
+Device hostname: {{ loggggg.ansible_facts.ansible_net_hostname }}
+{{ loggggg.ansible_facts.ansible_net_model }} version: {{ loggggg.ansible_facts.ansible_net_version }}
+PID: {{ loggggg.ansible_facts.ansible_net_system }}
+{% if loggggg.ansible_facts.ansible_net_all_ipv4_addresses -%}
+Mgmt IPv4: {{ loggggg.ansible_facts.ansible_net_all_ipv4_addresses[0] }}
+{% else -%}
+Mgmt IPv4: None
+{% endif -%}
+{% if loggggg.ansible_facts.ansible_net_all_ipv6_addresses -%}
+Mgmt IPv6: {{ loggggg.ansible_facts.ansible_net_all_ipv6_addresses[0] }}
+{% else -%}
+Mgmt IPv6: None
+{% endif -%}
+{% endif -%}
+{% elif {{ loggggg.ansible_facts.ansible_net_system }} == 'nxos' -%}
+This is the summary of the NXOS device
+===================================================
+Device hostname: {{ loggggg.ansible_facts.ansible_net_hostname }}
+{{ loggggg.ansible_facts.ansible_net_system }} version: {{ loggggg.ansible_facts.ansible_net_version }}
+PID: {{ loggggg.ansible_facts.ansible_net_platform }}
+{% if loggggg.ansible_facts.ansible_net_all_ipv4_addresses -%}
+Mgmt IPv4: {{ loggggg.ansible_facts.ansible_net_all_ipv4_addresses[0] }}
+{% else -%}
+Mgmt IPv4: None
+{% endif -%}
+{% if loggggg.ansible_facts.ansible_net_all_ipv6_addresses -%}
+Mgmt IPv6: {{ loggggg.ansible_facts.ansible_net_all_ipv6_addresses[0] }}
+{% else -%}
+Mgmt IPv6: None
+{% endif -%}
+{% endif -%}

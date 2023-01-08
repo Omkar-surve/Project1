@@ -1,0 +1,27 @@
+---
+- name: A reachability test
+  hosts: [ios_routers,iosxr_routers]
+  gather_facts: no
+  vars:
+    ansible_python_interpreter: /usr/bin/python3.6
+    #We can use this section to define variables which will be used by this playbook/plays below.
+    destination: 10.10.0.5
+
+  tasks:
+
+  - name: Check ping to 10.10.0.5 from IOS and IOSXR Device
+    #This task uses the destination value defined above under vars section
+    ios_ping:
+      dest: "{{destination}}"
+    register: data
+
+  - name: Checking IP addresses on the interfaces
+    #This task uses the ios_command plugin to run show commands on the remote cisco ios router.
+    ios_command:
+      commands: show ip interface brief
+    register: data2
+
+  - name: Printing ping response
+    #This task is print the output collected in registered variable "data" which is present in above task.
+    debug:
+      msg: "{{ data2 }}"

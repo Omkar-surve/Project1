@@ -1,0 +1,23 @@
+---
+- name: Playbook to show use of user variable.
+  hosts: all
+  gather_facts: no
+  vars:
+  - destination: 10.10.0.5
+
+  tasks:
+  - name: Show commands output from IOS device.
+    ios_command:
+      commands:
+      - show version
+      - show interfaces
+      wait_for:
+      - result[0] contains IOS
+      - result[1] contains Ethernet0/0
+    when:
+    - ansible_network_os: "ios"
+    register: ios_results
+
+  - name: print
+    debug:
+      msg: "{{ ios_results }}"
