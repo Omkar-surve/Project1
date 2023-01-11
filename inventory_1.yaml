@@ -2,23 +2,6 @@ ios_routers:
   hosts:
     R2:
       ansible_host: 10.10.1.2
-      interfaces:
-        names:
-          Ethernet0/0:
-            description: Mgmt Interface
-            IPv4_addr: 10.10.1.2
-            IPv4_mask: 255.255.0.0
-            IPv6_addr: 2001:db8:10:10:1::2/64
-          Ethernet0/1:
-            description: 'AS65535|Towards R1 Gi0/0/0/1'
-            IPv4_addr: 12.34.35.2
-            IPv4_mask: 255.255.255.0
-            IPv6_addr: 2001:db8:12:34:35::2/112
-          Ethernet0/2:
-            description: 'AS65533|Towards R5 Eth0/2'
-            IPv4_addr: 25.33.34.2
-            IPv4_mask: 255.255.255.0
-            IPv6_addr: 2001:db8:25:33:34::2/112
     R5:
       ansible_host: 10.10.1.5
     R6:

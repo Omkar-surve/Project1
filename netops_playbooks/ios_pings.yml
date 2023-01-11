@@ -3,7 +3,7 @@
   hosts: [ios_routers,iosxr_routers]
   gather_facts: no
   vars:
-    ansible_python_interpreter: /usr/bin/python3.6
+    # ansible_python_interpreter: /usr/bin/python3.6
     #We can use this section to define variables which will be used by this playbook/plays below.
     destination: 10.10.0.5
 

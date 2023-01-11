@@ -1,0 +1,212 @@
+ansible-doc -t lookup -l 
+
+vars                  Lookup templated value of variables                                                                                                                        
+sequence              generate a list based on a number sequence                                                                                                                 
+first_found           return first file found from list                                                                                                                          
+keyring               grab secrets from the OS keyring                                                                                                                           
+nested                composes a list with nested elements of other lists                                                                                                        
+cpm_metering          Get Power and Current data from WTI OOB/Combo and PDU devices                                                                                              
+list                  simply returns what it is given                                                                                                                            
+file                  read file contents                                                                                                                                         
+conjur_variable       Fetch credentials from CyberArk Conjur                                                                                                                     
+template              retrieve contents of file after templating with Jinja2                                                                                                     
+varnames              Lookup matching variable names                                                                                                                             
+inventory_hostnames   list of inventory hosts matching a host pattern                                                                                                            
+passwordstore         manage passwords with passwordstore.org's pass utility                                                                                                     
+dict                  returns key/value pair items from dictionaries                                                                                                             
+config                Lookup current Ansible configuration values                                                                                                                
+subelements           traverse nested key from a list of dictionaries                                                                                                            
+filetree              recursively match all files in a directory tree                                                                                                            
+indexed_items         rewrites lists to return 'indexed items'                                                                                                                   
+csvfile               read data from a TSV or CSV file                                                                                                                           
+flattened             return single list completely flattened                                                                                                                    
+password              retrieve or generate a random password, stored in a file                                                                                                   
+random_choice         return random element from list                                                                                                                            
+env                   read the value of environment variables                                                                                                                    
+url                   return contents from URL                                                                                                                                   
+items                 list of items                                                                                                                                              
+lines                 read lines from command                                                                                                                                    
+together              merges lists into synchronized list                                                                                                                        
+pipe                  read output from a command                                                                                                                                 
+fileglob              list files matching a pattern                                                                                                                              
+ini                   read data from a ini file                                                                                                                                  
+
+=========================================================================================
+ansible-doc -t become -l
+
+enable     Switch to elevated permissions on a network device                                                                                                                                                     
+sesu       CA Privileged Access Manager                                                                                                                                                                           
+pmrun      Privilege Manager run                                                                                                                                                                                  
+runas      Run As user                                                                                                                                                                                            
+sudo       Substitute User DO                                                                                                                                                                                     
+su         Substitute User                                                                                                                                                                                        
+doas       Do As user                                                                                                                                                                                             
+pfexec     profile based execution                                                                                                                                                                                
+machinectl Systemd's machinectl privilege escalation                                                                                                                                                              
+
+=========================================================================================
+ansible-doc -t callback -l
+
+counter_enabled      adds counters to the output items (tasks and hosts/task)                                                                                                                                     
+cgroup_perf_recap    Profiles system activity of tasks and full execution using cgroups                                                                                                                           
+nrdp                 post task result to a nagios server through nrdp                                                                                                                                             
+say                  notify using software speech synthesizer                                                                                                                                                     
+oneline              oneline Ansible screen output                                                                                                                                                                
+hipchat              post task events to hipchat                                                                                                                                                                  
+null                 Don't display stuff to screen                                                                                                                                                                
+jabber               post task events to a jabber server                                                                                                                                                          
+dense                minimal stdout output                                                                                                                                                                        
+logstash             Sends events to Logstash                                                                                                                                                                     
+yaml                 yaml-ized Ansible screen output                                                                                                                                                              
+json                 Ansible screen output as JSON                                                                                                                                                                
+logentries           Sends events to Logentries                                                                                                                                                                   
+mail                 Sends failure events via email                                                                                                                                                               
+junit                write playbook output to a JUnit file                                                                                                                                                        
+minimal              minimal Ansible screen output                                                                                                                                                                
+log_plays            write playbook output to log file                                                                                                                                                            
+foreman              Sends events to Foreman                                                                                                                                                                      
+selective            only print certain tasks                                                                                                                                                                     
+aws_resource_actions summarizes all "resource:actions" completed                                                                                                                                                  
+splunk               Sends task result events to Splunk HTTP Event Collector                                                                                                                                      
+profile_roles        adds timing information to roles                                                                                                                                                             
+profile_tasks        adds time information to tasks                                                                                                                                                               
+osx_say              notify using software speech synthesizer                                                                                                                                                     
+logdna               Sends playbook logs to LogDNA                                                                                                                                                                
+slack                Sends play events to a Slack channel                                                                                                                                                         
+default              default Ansible screen output                                                                                                                                                                
+tree                 Save host events to files                                                                                                                                                                    
+cgroup_memory_recap  Profiles maximum memory usage of tasks and full execution using cgroups                                                                                                                      
+timer                Adds time to play stats                                                                                                                                                                      
+actionable           shows only items that need attention                                                                                                                                                         
+syslog_json          sends JSON events to syslog                                                                                                                                                                  
+unixy                condensed Ansible output                                                                                                                                                                     
+stderr               Splits output, sending failed tasks to stderr                                                                                                                                                
+debug                formatted stdout/stderr display                                                                                                                                                              
+skippy               Ansible screen output that ignores skipped status                                                                                                                                            
+sumologic            Sends task result events to Sumologic                                                                                                                                                        
+full_skip            suppresses tasks if all hosts skipped                                                                                                                                                        
+context_demo         demo callback that adds play/task context                                                                                                                                                    
+
+=======================================================================================================
+ansible-doc -t cliconf -l
+
+nxos       Use nxos cliconf to run command on Cisco NX-OS platform                                                                                                                                                
+iosxr      Use iosxr cliconf to run command on Cisco IOS XR platform                                                                                                                                              
+vyos       Use vyos cliconf to run command on VyOS platform                                                                                                                                                       
+ios        Use ios cliconf to run command on Cisco IOS platform                                                                                                                                                   
+
+========================================================================================================
+ansible-doc -t inventory -l
+
+nmap                Uses nmap to find hosts to target                                                                                                                            
+host_list           Parses a 'host list' string                                                                                                                                  
+hcloud              Ansible dynamic inventory plugin for the Hetzner Cloud                                                                                                       
+openstack           OpenStack inventory source                                                                                                                                   
+vultr               Vultr inventory source                                                                                                                                       
+aws_ec2             EC2 inventory source                                                                                                                                         
+cloudscale          cloudscale.ch inventory source                                                                                                                               
+virtualbox          virtualbox inventory source                                                                                                                                  
+constructed         Uses Jinja2 to construct vars and groups based on existing inventory                                                                                         
+k8s                 Kubernetes (K8s) inventory source                                                                                                                            
+generator           Uses Jinja2 to construct hosts and groups from patterns                                                                                                      
+script              Executes an inventory script that returns JSON                                                                                                               
+vmware_vm_inventory VMware Guest inventory source                                                                                                                                
+linode              Ansible dynamic inventory plugin for Linode                                                                                                                  
+docker_machine      Docker Machine inventory source                                                                                                                              
+yaml                Uses a specific YAML file as an inventory source                                                                                                             
+online              Online inventory source                                                                                                                                      
+azure_rm            Azure Resource Manager inventory plugin                                                                                                                      
+docker_swarm        Ansible dynamic inventory plugin for Docker swarm nodes                                                                                                      
+advanced_host_list  Parses a 'host list' with ranges                                                                                                                             
+foreman             foreman inventory source                                                                                                                                     
+auto                Loads and executes an inventory plugin specified in a YAML config                                                                                            
+kubevirt            KubeVirt inventory source                                                                                                                                    
+gitlab_runners      Ansible dynamic inventory plugin for GitLab runners                                                                                                          
+netbox              NetBox inventory source                                                                                                                                      
+gcp_compute         Google Cloud Compute Engine inventory source                                                                                                                 
+aws_rds             rds instance source                                                                                                                                          
+openshift           OpenShift inventory source                                                                                                                                   
+toml                Uses a specific TOML file as an inventory source                                                                                                             
+tower               Ansible dynamic inventory plugin for Ansible Tower                                                                                                           
+scaleway            Scaleway inventory source                                                                                                                                    
+ini                 Uses an Ansible INI file as inventory source                                                                                                                 
+
+======================================================================================================
+ansible-doc -t netconf -l
+
+default Use default netconf plugin to run standard netconf commands as per RFC                                                                                                   
+iosxr   Use iosxr netconf plugin to run netconf commands on Cisco IOSXR platform                                                                                                 
+junos   Use junos netconf plugin to run netconf commands on Juniper JUNOS platform                                                                                               
+sros    Use Nokia SROS netconf plugin to run netconf commands on Nokia SROS platform                                                                                             
+ce      Use ce netconf plugin to run netconf commands on Huawei Cloudengine platform                                                                                             
+
+======================================================================================================
+ansible-doc -t shell -l
+
+powershell Windows PowerShell                                                                                                                                                    
+fish       fish shell (/bin/fish)                                                                                                                                                
+cmd        Windows Command Prompt                                                                                                                                                
+csh        C shell (/bin/csh)                                                                                                                                                    
+sh         POSIX shell (/bin/sh)                                                                                                                                                 
+
+======================================================================================================
+ansible-doc -t strategy -l
+
+debug       Executes tasks in interactive debug session                                                                                                                          
+host_pinned Executes tasks on each host without interruption                                                                                                                     
+linear      Executes tasks in a linear fashion                                                                                                                                   
+free        Executes tasks without waiting for all hosts                                                                                                                         
+
+======================================================================================================
+ansible-doc -t vars -l
+
+host_group_vars In charge of loading group_vars and host_vars                                                                                                                    
+
+======================================================================================================
+ansible-doc -t modules -l
+
+import_playbook                                               Import a playbook                                                                                 
+add_host                                                      Add a host (and alternatively a group) to the ansible-playbook in-memory inventory                
+pause                                                         Pause playbook execution                                                                          
+synchronize                                                   A wrapper around rsync to make common tasks in your playbooks quick and easy                      
+include_vars                                                  Load variables from files, dynamically within a task                                              
+import_role                                                   Import a role into a play                                                                         
+include_role                                                  Load and execute a role                                                                           
+replace                                                       Replace all instances of a particular string in a file using a back-referenced regular expression 
+lineinfile                                                    Manage lines in text files                                                                        
+net_put                                                       Copy a file from Ansible Controller to a network device                                           
+make                                                          Run targets in a Makefile                                                                         
+patch                                                         Apply patch files using the GNU patch tool                                                        
+slurp                                                         Slurps a file from remote nodes                                                                   
+git                                                           Deploy software (or files) from git checkouts                                                     
+read_csv                                                      Read a CSV file                                                                                   
+archive                                                       Creates a compressed archive of one or more files or trees                                        
+template                                                      Template a file out to a remote server                                                            
+copy                                                          Copy files to remote locations                                                                    
+xml                                                           Manage bits and pieces of XML files or strings                                                    
+interfaces_file                                               Tweak settings in /etc/network/interfaces files                                                   
+assemble                                                      Assemble configuration files from fragments                                                       
+get_url                                                       Downloads files from HTTP, HTTPS, or FTP to node                                                  
+htpasswd                                                      manage user files for basic authentication                                                        
+file                                                          Manage files and file properties                                                                  
+known_hosts                                                   Add or remove a host from the `known_hosts' file                                                  
+ini_file                                                      Tweak settings in INI files                                                                       
+iso_extract                                                   Extract files from an ISO image                                                                   
+find                                                          Return a list of files based on specific criteria                                                 
+net_get                                                       Copy a file from a network device to Ansible Controller                                           
+postgresql_copy                                               Copy data between a file/program and a PostgreSQL table                                           
+at                                                            Schedule the execution of a command or script file via the at command                             
+xfs_quota                                                     Manage quotas on XFS filesystems                                                                  
+nxos_file_copy                                                Copy a file to a remote NXOS device                                                               
+fetch                                                         Fetch files from remote nodes                                                                     
+blockinfile                                                   Insert/update/remove a text block surrounded by marker lines                                      
+tempfile                                                      Creates temporary files and directories                                                           
+filesystem                                                    Makes a filesystem                                                                                
+stat                                                          Retrieve file or file system status                                                               
+setup                                                         Gathers facts about remote hosts                                                                  
+add_host                                                      Add a host (and alternatively a group) to the ansible-playbook in-memory inventory                                                 
+tower_inventory                                               create, update, or destroy Ansible Tower inventory                                                                                 
+tower_inventory_source                                        create, update, or destroy Ansible Tower inventory source                                                                          
+set_stats                                                     Set stats for the current ansible run       
+
+
