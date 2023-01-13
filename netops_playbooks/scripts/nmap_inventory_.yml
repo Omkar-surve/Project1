@@ -1,0 +1,4 @@
+---
+plugin: nmap
+address: 10.10.1.0/24
+strict: false
