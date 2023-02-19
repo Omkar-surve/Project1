@@ -1,0 +1,36 @@
+---
+- name: Installing ftp server on Redhat Linux
+  hosts: localhost
+  become: yes
+  gather_facts: false
+
+  tasks:
+  - name: Upgrade systems with YUM
+    yum:
+      name: '*'
+      state: latest
+
+  - name: Installing VSFTPD package.
+    yum:
+      name: vsftpd
+      state: present
+
+  - name: Enabling FTP Service
+    systemd:
+      name: vsftpd
+      enabled: yes
+      state: started
+
+  - name: Configuring vsftpd config files.
+    blockinfile:
+      path: /etc/vsftpd/vsftpd.conf
+      block: |
+        anonymous_enable=YES
+        local_enable=YES
+        write_enable=YES
+
+  - name: Restarting FTP Service
+    systemd:
+      name: vsftpd
+      enabled: yes
+      state: restarted
